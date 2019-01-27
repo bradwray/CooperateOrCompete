@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Play from "./play.js";
 import Routes from "./routes.js";
 import "./styles.css";
 

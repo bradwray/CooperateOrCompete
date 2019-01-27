@@ -10,7 +10,7 @@ export default class Root extends React.Component {
       <BrowserRouter>
         <div>
           <Route exact path="/" component={StartGame} />
-          <Route exact path="/:teacher" component={Play} />
+          <Route exact path="/:code" component={Play} />
         </div>
       </BrowserRouter>
     );
