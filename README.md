@@ -1,2 +1,0 @@
-# CooperateOrCompete
-Created with CodeSandbox
