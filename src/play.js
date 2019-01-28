@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import {connectToGame} from "./dataManager"
 
 
 
@@ -50,13 +51,18 @@ let styles = theme => ({
 
 class Play extends React.Component {
   state = {
-    voted: false
+    voted: false,
+    groupName: ""
   };
 
   componentWillMount = () => {
-    this.setState({
-      gameCode: this.props.match.params.code,
-    });
+    connectToGame(this.props.match.params.code).then((result)=>{
+        this.setState({
+            gameCode: this.props.match.params.code,
+            groupName: result
+        });
+    })
+
   };
 
   handleChange = event => {
@@ -75,13 +81,13 @@ class Play extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
     return (
       <div>
         <div>
           <div>
             <div className={classes.root}>
               <Typography variant="h5">Cooperate or compete?</Typography>
+              <Typography variant="body2">Connected to group: {this.state.groupNames}</Typography>
               {!this.state.voted ? (
                 <form
                   className={classes.container}

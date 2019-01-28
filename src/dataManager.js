@@ -16,12 +16,15 @@ function newRound(gameCode, roundNum){
     return roundRefObj.key
 }
 
-function readGame(groupName){
-    firebase.database().ref("/games").on(groupName);
+function connectToGame(code){
+    return firebase.database().ref("/games").child(code).once("value").then(result=>{
+        return result.val().groupName
+    })
 }
 
 export {
-      makeGame
+      makeGame,
+      connectToGame
     }
 
 

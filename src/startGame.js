@@ -69,7 +69,7 @@ class StartGame extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let url = "https://n0r8yp94p.codesandbox.io/" + this.state.gameCode
+    let url = "https://3000-ba596077-8c86-47e6-b1ab-679e7a0fd32d.ws-us.gitpod.io/" + this.state.gameCode
     console.log(this.state);
     return (
       <div>
