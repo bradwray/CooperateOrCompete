@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 import {config} from "./config.js"
 
+//config function simply returns a config object snippet from the firebase project
 firebase.initializeApp(config());
 
 //Make a game and return the key of that game for the QR code
