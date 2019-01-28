@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import QR from "qrcode.react";
+import {makeGame} from "./dataManager"
 
 let styles = theme => ({
   container: {
@@ -47,7 +48,7 @@ let styles = theme => ({
 
 class StartGame extends React.Component {
   state = {
-    voted: false
+    begun: false
   };
 
   componentWillMount = () => {};
@@ -58,16 +59,17 @@ class StartGame extends React.Component {
     });
   };
 
-  handleCooperate = () => {
-    this.setState({ voted: true });
-  };
-
-  handleCompete = () => {
-    this.setState({ voted: true });
+  handleMake = () => {
+    let code = makeGame(this.state.name)
+    this.setState({
+        begun: true,
+        gameCode: code
+        });
   };
 
   render() {
     const { classes } = this.props;
+    let url = "https://n0r8yp94p.codesandbox.io/" + this.state.gameCode
     console.log(this.state);
     return (
       <div>
@@ -78,7 +80,7 @@ class StartGame extends React.Component {
               <Typography variant="body2">
                 Begin a game with your class?
               </Typography>
-              {!this.state.voted ? (
+              {!this.state.begun ? (
                 <form
                   className={classes.container}
                   noValidate
@@ -97,7 +99,7 @@ class StartGame extends React.Component {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick={this.handleCooperate}
+                    onClick={this.handleMake}
                   >
                     Create New Game
                   </Button>
@@ -113,7 +115,7 @@ class StartGame extends React.Component {
                   <br />
                   <QR
                     size="200"
-                    value="https://n0r8yp94p.codesandbox.io/test"
+                    value={url}
                   />
                 </div>
               )}

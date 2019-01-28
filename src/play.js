@@ -53,7 +53,12 @@ class Play extends React.Component {
     voted: false
   };
 
-  componentWillMount = () => {};
+  componentWillMount = () => {
+    this.setState({
+      gameCode: this.props.match.params.code,
+    });
+  };
+
   handleChange = event => {
     this.setState({
       name: event.target.value
