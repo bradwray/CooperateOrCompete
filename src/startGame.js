@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import QR from "qrcode.react";
 
 let styles = theme => ({
   container: {
@@ -50,6 +51,7 @@ class StartGame extends React.Component {
   };
 
   componentWillMount = () => {};
+
   handleChange = event => {
     this.setState({
       name: event.target.value
@@ -107,16 +109,18 @@ class StartGame extends React.Component {
                 <div>
                   <br />
                   <br />
-                  <Typography variant="h3">
-                    Join Code: 
-                  </Typography>
+                  <Typography variant="h3">Join Code:</Typography>
                   <br />
+                  <QR
+                    size="200"
+                    value="https://n0r8yp94p.codesandbox.io/test"
+                  />
                 </div>
               )}
             </div>
           </div>
-          </div>
         </div>
+      </div>
     );
   }
 }
