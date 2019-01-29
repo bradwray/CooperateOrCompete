@@ -1,4 +1,17 @@
+body{
+
+background: url(bg.jpg) repeat, left top;
+}
+
 .App {
+    top: 10px;
+    border: 25px solid #124483;
+  position: relative;
   font-family: sans-serif;
   text-align: center;
+  margin: 0 auto;
+  max-width: 1000px;
+  height: 87vh;
+background: #72CDE0;
+
 }

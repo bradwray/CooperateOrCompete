@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import {connectToGame} from "./dataManager"
@@ -13,15 +12,28 @@ import {connectToGame} from "./dataManager"
 
 let styles = theme => ({
   container: {
-    backgroundColor: "#eee",
-    width: "100%",
-    height: "100%"
+    backgroundColor: "#0FA6BB",
+    border: "22px dashed #6ED2E1",
+    margin: "0 auto",
+    width: "70vw",
+    height: "100%",
+    borderRadius: "5px",
+    padding: "20px 0px 20px 0px"
   },
   textField: {
     width: "90%",
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    marginBottom: "15px"
+  },
+    button: {
+    backgroundColor: "#124483",
+    "&:hover": {
+      transform: "scale(1.2)",
+      backgroundColor: "#ED6F22",
+      color: "#fff"
+    }
   },
   dense: {
     marginTop: 16
@@ -102,7 +114,6 @@ class Play extends React.Component {
                     variant="outlined"
                     onChange={this.handleChange}
                   />
-
                   <Button
                     variant="contained"
                     color="primary"
@@ -133,25 +144,7 @@ class Play extends React.Component {
                   <br />
                 </div>
               )}
-              <div className={classes.timeBar}>
-                <Typography variant="h3">{this.state.timeLeft}</Typography>
-                {this.state.percent < 75 ? (
-                  <LinearProgress
-                    classes={{
-                      colorPrimary: classes.colorPrimary,
-                      barColorPrimary: classes.barColorPrimary,
-                    }}
-                    variant="determinate"
-                    value={this.state.percent}
-                  />
-                ) : (
-                  <LinearProgress
-                    color="secondary"
-                    variant="determinate"
-                    value={87}
-                  />
-                )}
-              </div>
+
             </div>
           </div>
           <div />
