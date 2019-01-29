@@ -4,11 +4,11 @@ import Routes from "./routes.js";
 import "./styles.css";
 
 function App() {
-  return (
-    <div className="App">
-      <Routes />
-    </div>
-  );
+    return (
+        <div className="App">
+            <Routes />
+        </div>
+    );
 }
 
 const rootElement = document.getElementById("root");

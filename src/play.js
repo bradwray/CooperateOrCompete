@@ -70,9 +70,8 @@ class Play extends React.Component {
   componentWillMount = () => {
     connectToGame(this.props.match.params.code).then((result)=>{
         this.setState({
-            gameCode: this.props.match.params.code,
-            groupName: result
-        });
+     gameCode: this.props.match.params.code,
+            groupName: result});
     })
 
   };

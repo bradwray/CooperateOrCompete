@@ -1,6 +1,7 @@
 body{
 
 background: url(bg.jpg) repeat, left top;
+
 }
 
 .App {
@@ -12,6 +13,6 @@ background: url(bg.jpg) repeat, left top;
   margin: 0 auto;
   max-width: 1000px;
   height: 87vh;
-background: #72CDE0;
+    background: #6ED2E1;
 
 }
