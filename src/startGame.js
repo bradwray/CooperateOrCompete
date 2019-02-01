@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import * as firebase from 'firebase';
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import QR from "qrcode.react";
-import { makeGame } from "./dataManager"
+import { makeGame, newRound, stopRound } from "./dataManager"
 
 let QRsize = window.innerWidth / 3
 
@@ -15,7 +16,7 @@ let styles = theme => ({
       backgroundColor: "#0FA6BB",
       border: "22px dashed #6ED2E1",
       margin: "0 auto",
-      width: "70vw",
+      width: "65vw",
       height: "100%",
       padding: "20px 0px 20px 0px"
    },
@@ -25,6 +26,9 @@ let styles = theme => ({
       marginRight: theme.spacing.unit,
       backgroundColor: "#fff",
       borderRadius: "4px",
+   },
+   qr: {
+      width: "50vw"
    },
    dense: {
       marginTop: 16
@@ -64,10 +68,22 @@ let styles = theme => ({
 
 class StartGame extends React.Component {
    state = {
-      begun: false
+      gameMade: false,
+      roundNum: 1
    };
 
-   componentWillMount = () => { };
+   componentWillMount = () => {
+
+   };
+
+   listenToRounds = (gameCode) => {
+      firebase.database().ref("/games").child(gameCode).child("currentRound").on("value", (snap) => {
+         this.setState({
+            roundOpen: snap.val().roundOpen ? snap.val().roundOpen : false,
+            roundNum: snap.val().roundNum ? snap.val().roundNum : 1
+         });
+      })
+   }
 
    handleChange = event => {
       this.setState({
@@ -78,22 +94,38 @@ class StartGame extends React.Component {
    handleMake = () => {
       let code = makeGame(this.state.name)
       this.setState({
-         begun: true,
+         gameMade: true,
          gameCode: code
       });
+      setTimeout(() => {
+         this.listenToRounds(code)
+      }, 1000)
+
    };
+
+   handleNewRound = () => {
+      newRound(this.state.gameCode, this.state.roundNum)
+      this.setState({
+         roundNum: this.state.roundNum + 1
+      });
+   }
+
+   handleStopRound = () => {
+      let data = stopRound(this.state.gameCode, this.state.roundNum)
+      this.setState(data);
+   }
 
    render() {
       const { classes } = this.props;
       let url = "https://3000-ba596077-8c86-47e6-b1ab-679e7a0fd32d.ws-us.gitpod.io/" + this.state.gameCode
-      
+
       return (
          <div>
             <div>
                <div>
                   <div className={classes.root}>
                      <Typography style={{ color: "#124483" }} variant="h2">Cooperate or Compete</Typography><br />
-                     {!this.state.begun ? (
+                     {!this.state.gameMade ? (
                         <form
                            className={classes.container}
                            noValidate
@@ -106,7 +138,7 @@ class StartGame extends React.Component {
                               label="Class name?"
                               className={classNames(classes.textField, classes.dense)}
                               margin="dense"
-                              variant="outlined"
+                              variant="filled"
                               onChange={this.handleChange}
                            />
 
@@ -115,7 +147,7 @@ class StartGame extends React.Component {
                               color="primary"
                               className={classes.button}
                               onClick={this.handleMake}
-                           > Create New Game</Button>
+                           >Create New Game</Button>
 
                            <br />
                            <br />
@@ -127,9 +159,16 @@ class StartGame extends React.Component {
                               <Typography variant="h5">Dear players, please scan this.</Typography>
                               <br />
                               <QR
+                                 className={classes.qr}
                                  size={QRsize}
                                  value={url}
-                              />
+                              /><br />
+                              <Button
+                                 variant="contained"
+                                 color="primary"
+                                 className={classes.button}
+                                 onClick={this.handleNewRound}
+                              >Begin Round #{this.state.roundNum}</Button>
                            </div>
                         )}
                   </div>
