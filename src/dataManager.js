@@ -25,21 +25,36 @@ function stopRound(gameCode, roundNum) {
    roundRefObj.child("currentRound").child("roundOpen").set(false);
 }
 
-function vote(coop, gameCode, roundNum) {
-
+function vote(choice, gameCode, roundNum, name) {
+   let voteRefObj = firebase.database().ref("/games").child(gameCode)
+   if (choice === "cooperate") {
+      voteRefObj.child("rounds").child(roundNum).child("coop").push({ name: name })
+   }
+   else if (choice === "compete") {
+      voteRefObj.child("rounds").child(roundNum).child("comp").push({ name: name, time: Date.now() })
+   }
 }
 
-function connectToGame(code) {
-   return firebase.database().ref("/games").child(code).child("groupName").once("value").then(result => {
+function connectToGame(code, name) {
+   let connectRef = firebase.database().ref("/games").child(code)
+   return connectRef.child("groupName").once("value").then(result => {
       return result.val()
    })
 }
+
+function joinGame(code, name) {
+   let joinRef = firebase.database().ref("/games").child(code)
+   joinRef.child("players").push(name)
+}
+
 
 export {
    makeGame,
    connectToGame,
    newRound,
-   stopRound
+   stopRound,
+   vote,
+   joinGame
 }
 
 

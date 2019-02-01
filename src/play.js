@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import * as firebase from 'firebase';
-import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { connectToGame } from "./dataManager"
+import { connectToGame, vote, joinGame } from "./dataManager"
 import WaitAndVote from "./waitAndVote.js"
 import NameEntry from "./nameEntry.js"
 
@@ -89,6 +88,7 @@ class Play extends React.Component {
    };
 
    handleCooperate = () => {
+      vote("cooperate", this.state.gameCode, this.state.roundNum, this.state.name)
       this.setState({
          voted: true,
          roundOpen: false
@@ -96,6 +96,7 @@ class Play extends React.Component {
    };
 
    handleCompete = () => {
+      vote("compete", this.state.gameCode, this.state.roundNum, this.state.name)
       this.setState({
          voted: true,
          roundOpen: false
@@ -103,6 +104,7 @@ class Play extends React.Component {
    };
 
    handleSubmit = () => {
+      joinGame(this.state.gameCode, this.state.name)
       this.setState({ nameEntered: true });
    }
 
@@ -134,7 +136,7 @@ class Play extends React.Component {
                               <br />
                               <br />
                               <Typography variant="h3">
-                                 Your WaitAndVote has been recorded.
+                                 Your vote has been recorded.
                   </Typography>
                               <br />
                            </div>
