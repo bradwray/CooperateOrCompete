@@ -62,7 +62,7 @@ class Play extends React.Component {
       WaitAndVoted: false,
       groupName: "",
       nameEntered: false,
-      roudOpen: false
+      roundOpen: false
    };
 
    componentWillMount = () => {
@@ -117,7 +117,7 @@ class Play extends React.Component {
                   <div className={classes.root}>
                      <Typography style={{ color: "#124483" }} variant="h2">Cooperate or Compete</Typography><br />
                      <Typography variant="body2">Connected to group: {this.state.groupName}</Typography>
-                     {!this.state.voted ? (
+                     {!this.state.voted || this.state.roundOpen ? (
                         <form
                            className={classes.container}
                            noValidate
@@ -135,9 +135,9 @@ class Play extends React.Component {
                            <div>
                               <br />
                               <br />
-                              <Typography variant="h3">
-                                 Your vote has been recorded.
-                  </Typography>
+                              <Typography variant="h4">
+                                 Your vote has been recorded. Waiting for the next round.
+                              </Typography>
                               <br />
                            </div>
                         )}

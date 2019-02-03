@@ -70,7 +70,8 @@ let styles = theme => ({
 class StartGame extends React.Component {
    state = {
       gameMade: false,
-      roundNum: 1
+      roundNum: 1,
+      gameHistory: []
    };
 
    componentWillMount = () => {
@@ -106,14 +107,41 @@ class StartGame extends React.Component {
 
    handleNewRound = () => {
       newRound(this.state.gameCode, this.state.roundNum)
+      this.setState({
+         roundStart: Date.now()
+      });
    }
 
    handleRoundEnd = () => {
-      let data = stopRound(this.state.gameCode, this.state.roundNum)
-      console.log(data)
-      this.setState({
-         roundNum: this.state.roundNum + 1
-      });
+      stopRound(this.state.gameCode, this.state.roundNum).then((result) => {
+         let tempArr = this.state.gameHistory;
+         let coops = result.coop != null ? Object.values(result.coop, []) : []
+         let comps = result.comp != null ? Object.values(result.comp, []) : []
+
+         tempArr[this.state.roundNum - 1] = {
+            cooperators: coops,
+            competitors: comps,
+            coopPercentage: coops.length / (coops.length + comps.length),
+            forRound: this.state.roundNum,
+            winners: this.checkWinners(comps, 3)
+         }
+
+         this.setState({
+            roundNum: this.state.roundNum + 1,
+            gameHistory: tempArr
+         });
+      })
+   }
+
+   checkWinners = (competitors, numWinners) => {
+      if (competitors.length != 0) {
+         return competitors.map((i) => {
+            return i.name
+         })
+      }
+      else {
+         return "Everybody!"
+      }
    }
 
    render() {

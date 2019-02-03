@@ -24,11 +24,8 @@ async function stopRound(gameCode, roundNum) {
    roundRefObj.child("rounds").child(roundNum).child("endTime").set(Date.now());
    roundRefObj.child("currentRound").child("roundOpen").set(false);
    try {
-      let [coop, comp] = await Promise.all([
-         getRelevantData("/games/" + gameCode + "/rounds/" + roundNum, ["coop"]),
-         getRelevantData("/games/" + gameCode + "/rounds/" + roundNum, ["comp"])])
-
-      return { coop, comp }
+      let data = await getRelevantData("/games/" + gameCode + "/rounds/" + roundNum, ["coop", "comp", "startTime"])
+      return data
    } catch (err) {
       console.log(err)
    }
