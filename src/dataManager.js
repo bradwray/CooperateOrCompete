@@ -19,11 +19,21 @@ function newRound(gameCode, roundNum) {
    roundRefObj.child("currentRound").set({ roundOpen: true, roundNum: roundNum });
 }
 
-function stopRound(gameCode, roundNum) {
+async function stopRound(gameCode, roundNum) {
    let roundRefObj = firebase.database().ref("/games").child(gameCode)
    roundRefObj.child("rounds").child(roundNum).child("endTime").set(Date.now());
    roundRefObj.child("currentRound").child("roundOpen").set(false);
+   try {
+      let [coop, comp] = await Promise.all([
+         getRelevantData("/games/" + gameCode + "/rounds/" + roundNum, ["coop"]),
+         getRelevantData("/games/" + gameCode + "/rounds/" + roundNum, ["comp"])])
+
+      return { coop, comp }
+   } catch (err) {
+      console.log(err)
+   }
 }
+
 
 function vote(choice, gameCode, roundNum, name) {
    let voteRefObj = firebase.database().ref("/games").child(gameCode)
@@ -45,6 +55,29 @@ function connectToGame(code, name) {
 function joinGame(code, name) {
    let joinRef = firebase.database().ref("/games").child(code)
    joinRef.child("players").push(name)
+}
+
+function getRelevantData(ref, keys) {
+   return new Promise((fulfill, reject) => {
+      let refObj = firebase.database().ref(ref);
+      let current = 0;
+      let endResult = {};
+      for (let i = 0; i < keys.length; i++) {
+         refObj.child(keys[i]).once('value').then(snap => {
+            if (snap.exists()) {
+               endResult[keys[i]] = snap.val();
+            } else {
+               endResult[keys[i]] = null;
+            }
+            current++;
+            if (current === keys.length) {
+               fulfill(endResult);
+            }
+         }).catch((err) => {
+            reject(err);
+         });
+      }
+   });
 }
 
 

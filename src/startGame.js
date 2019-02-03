@@ -41,6 +41,7 @@ let styles = theme => ({
    },
    button: {
       marginTop: 15,
+      margin: "15px 15px 15px 15px",
       backgroundColor: "#124483",
       "&:hover": {
          transform: "scale(1.2)",
@@ -105,19 +106,19 @@ class StartGame extends React.Component {
 
    handleNewRound = () => {
       newRound(this.state.gameCode, this.state.roundNum)
+   }
+
+   handleRoundEnd = () => {
+      let data = stopRound(this.state.gameCode, this.state.roundNum)
+      console.log(data)
       this.setState({
          roundNum: this.state.roundNum + 1
       });
    }
 
-   handleStopRound = () => {
-      let data = stopRound(this.state.gameCode, this.state.roundNum)
-      this.setState(data);
-   }
-
    render() {
       const { classes } = this.props;
-      let url = "https://3000-ba596077-8c86-47e6-b1ab-679e7a0fd32d.ws-us.gitpod.io/" + this.state.gameCode
+      let url = "https://3000-ba596077-8c86-47e6-b1ab-679e7a0fd32d.ws-us0.gitpod.io/" + this.state.gameCode
 
       return (
          <div>
@@ -167,8 +168,17 @@ class StartGame extends React.Component {
                                  variant="contained"
                                  color="primary"
                                  className={classes.button}
+                                 disabled={this.state.roundOpen ? true : false}
                                  onClick={this.handleNewRound}
                               >Begin Round #{this.state.roundNum}</Button>
+
+                              <Button
+                                 variant="contained"
+                                 color="primary"
+                                 disabled={this.state.roundOpen ? false : true}
+                                 className={classes.button}
+                                 onClick={this.handleRoundEnd}
+                              >End Round #{this.state.roundNum}</Button>
                            </div>
                         )}
                   </div>
