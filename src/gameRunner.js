@@ -117,15 +117,11 @@ class GameRunner extends React.Component {
    handleRoundEnd = () => {
       stopRound(this.state.gameCode, this.state.roundNum).then((result) => {
          let tempArr = this.state.gameHistory;
-         let coops = result.coop != null ? Object.values(result.coop, []) : []
-         let comps = result.comp != null ? Object.values(result.comp, []) : []
-
+         let votes = result.votes != null ? Object.values(result.votes, []) : []
          tempArr[this.state.roundNum - 1] = {
-            cooperators: coops,
-            competitors: comps,
-            coopPercentage: coops.length / (coops.length + comps.length),
             forRound: this.state.roundNum,
-            winners: this.checkWinners(coops, comps, 3)
+            votes: votes,
+            coopPercent: votes.filter((i) => { return i.vote === "cooperate" }) / votes.length
          }
 
          this.setState({
@@ -136,10 +132,10 @@ class GameRunner extends React.Component {
       })
    }
 
-   closeStats = () =>{
+   closeStats = () => {
       this.setState({
-            statsOpen: false,
-         });
+         statsOpen: false,
+      });
    }
 
    checkWinners = (cooperators, competitors, numWinners) => {
@@ -220,7 +216,7 @@ class GameRunner extends React.Component {
                               >End Round #{this.state.roundNum}</Button>
                            </div>
                         )}
-                     <StatDialog open={this.state.statsOpen} closeStats={this.closeStats} gameHistory={this.state.gameHistory}/>
+                     <StatDialog open={this.state.statsOpen} closeStats={this.closeStats} gameHistory={this.state.gameHistory} />
                   </div>
                </div>
             </div>

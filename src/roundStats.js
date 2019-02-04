@@ -54,16 +54,11 @@ class StatsHeaderRow extends React.Component {
    state = {
       rows: [
          { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-         { id: 'round 1', numeric: true, disablePadding: false, label: 'Round 1' },
-         { id: 'round 2', numeric: true, disablePadding: false, label: 'Round 2' },
-         { id: 'round 3', numeric: true, disablePadding: false, label: 'Round 3' },
-         { id: 'round 4', numeric: true, disablePadding: false, label: 'Round 4' },
-         { id: 'round 5', numeric: true, disablePadding: false, label: 'Round 5' },
-         { id: 'round 6', numeric: true, disablePadding: false, label: 'Round 2' },
-         { id: 'round 7', numeric: true, disablePadding: false, label: 'Round 3' },
-         { id: 'round 8', numeric: true, disablePadding: false, label: 'Round 4' },
-         { id: 'round 9', numeric: true, disablePadding: false, label: 'Round 5' },
-         { id: 'round 10', numeric: true, disablePadding: false, label: 'Round 5' },
+         { id: 'round 1', numeric: true, disablePadding: false, label: 'Round1' },
+         { id: 'round 2', numeric: true, disablePadding: false, label: 'Round2' },
+         { id: 'round 3', numeric: true, disablePadding: false, label: 'Round3' },
+         { id: 'round 4', numeric: true, disablePadding: false, label: 'Round4' },
+         { id: 'round 5', numeric: true, disablePadding: false, label: 'Round5' }
       ]
    }
 
@@ -138,9 +133,8 @@ const styles = theme => ({
 class StatsTable extends React.Component {
    state = {
       order: 'asc',
-      orderBy: 'calories',
+      orderBy: 'Round1',
       data: [
-         createData('Cupcake', 305),
          createData('Donut', 452),
          createData('Eclair', 262),
          createData('Frozen yoghurt', 159)
