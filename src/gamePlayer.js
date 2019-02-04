@@ -57,7 +57,7 @@ let styles = () => ({
    }
 });
 
-class Play extends React.Component {
+class GamePlayer extends React.Component {
    state = {
       WaitAndVoted: false,
       groupName: "",
@@ -151,8 +151,8 @@ class Play extends React.Component {
    }
 }
 
-Play.propTypes = {
+GamePlayer.propTypes = {
    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Play);
+export default withStyles(styles)(GamePlayer);

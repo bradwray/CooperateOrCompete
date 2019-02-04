@@ -8,8 +8,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import QR from "qrcode.react";
 import { makeGame, newRound, stopRound } from "./dataManager"
+import StatDialog from "./StatDialog.js"
 
-let QRsize = window.innerWidth / 3
+let QRsize = window.innerWidth / 5
 
 let styles = theme => ({
    container: {
@@ -67,11 +68,12 @@ let styles = theme => ({
 
 });
 
-class StartGame extends React.Component {
+class GameRunner extends React.Component {
    state = {
       gameMade: false,
       roundNum: 1,
-      gameHistory: []
+      gameHistory: [],
+      statsOpen: false
    };
 
    componentWillMount = () => {
@@ -123,24 +125,33 @@ class StartGame extends React.Component {
             competitors: comps,
             coopPercentage: coops.length / (coops.length + comps.length),
             forRound: this.state.roundNum,
-            winners: this.checkWinners(comps, 3)
+            winners: this.checkWinners(coops, comps, 3)
          }
 
          this.setState({
+            statsOpen: true,
             roundNum: this.state.roundNum + 1,
             gameHistory: tempArr
          });
       })
    }
 
-   checkWinners = (competitors, numWinners) => {
+   closeStats = () =>{
+      this.setState({
+            statsOpen: false,
+         });
+   }
+
+   checkWinners = (cooperators, competitors, numWinners) => {
       if (competitors.length != 0) {
          return competitors.map((i) => {
             return i.name
          })
       }
       else {
-         return "Everybody!"
+         return cooperators.map((i) => {
+            return i.name
+         })
       }
    }
 
@@ -209,6 +220,7 @@ class StartGame extends React.Component {
                               >End Round #{this.state.roundNum}</Button>
                            </div>
                         )}
+                     <StatDialog open={this.state.statsOpen} closeStats={this.closeStats}/>
                   </div>
                </div>
             </div>
@@ -217,8 +229,8 @@ class StartGame extends React.Component {
    }
 }
 
-StartGame.propTypes = {
+GameRunner.propTypes = {
    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(StartGame);
+export default withStyles(styles)(GameRunner);
