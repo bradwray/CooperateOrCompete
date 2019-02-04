@@ -220,7 +220,7 @@ class GameRunner extends React.Component {
                               >End Round #{this.state.roundNum}</Button>
                            </div>
                         )}
-                     <StatDialog open={this.state.statsOpen} closeStats={this.closeStats}/>
+                     <StatDialog open={this.state.statsOpen} closeStats={this.closeStats} gameHistory={this.state.gameHistory}/>
                   </div>
                </div>
             </div>

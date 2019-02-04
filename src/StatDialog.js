@@ -14,14 +14,28 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import RoundStats from "./roundStats"
+import bg from "./bg.jpg"
 
 const styles = {
    appBar: {
       position: 'relative',
+      backgroundImage: `url(${bg})`
    },
-   flex: {
-      flex: 1,
+   bg: {
+      backgroundColor: "#6ED2E1",
+      minHeight: "100vh",
+      height: "100%"
    },
+   close: {
+      backgroundColor: "#124483",
+      color: "#fff",
+      left: "90%",
+      "&:hover": {
+         transform: "scale(1.2)",
+         backgroundColor: "#ED6F22",
+         color: "#fff"
+      }
+   }
 };
 
 function Transition(props) {
@@ -58,18 +72,14 @@ class StatDialog extends React.Component {
             >
                <AppBar className={classes.appBar}>
                   <Toolbar>
-                     <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                        <CloseIcon />
-                     </IconButton>
-                     <Typography variant="h6" color="inherit" className={classes.flex}>
-                        Game Stats
-              </Typography>
-                     <Button color="inherit" onClick={this.handleClose}>
-                        ok
-              </Button>
+                     <Button className={classes.close} color="inherit" onClick={this.handleClose} aria-label="Close">
+                        close
+                     </Button>
                   </Toolbar>
                </AppBar>
-               <RoundStats />
+               <div className={classes.bg}>
+                  <RoundStats gameHistory={this.props.gameHistory} />
+               </div>
             </Dialog>
          </div >
       );
